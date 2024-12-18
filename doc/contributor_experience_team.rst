@@ -6,10 +6,6 @@
       img.avatar {border-radius: 10px;}
     </style>
     <div>
-    <a href='https://github.com/ArturoAmorQ'><img src='https://avatars.githubusercontent.com/u/86408019?v=4' class='avatar' /></a> <br />
-    <p>Arturo Amor</p>
-    </div>
-    <div>
     <a href='https://github.com/alfaro96'><img src='https://avatars.githubusercontent.com/u/32649176?v=4' class='avatar' /></a> <br />
     <p>Juan Carlos Alfaro Jiménez</p>
     </div>
@@ -32,6 +28,10 @@
     <div>
     <a href='https://github.com/norbusan'><img src='https://avatars.githubusercontent.com/u/1735589?v=4' class='avatar' /></a> <br />
     <p>Norbert Preining</p>
+    </div>
+    <div>
+    <a href='https://github.com/StefanieSenger'><img src='https://avatars.githubusercontent.com/u/91849487?v=4' class='avatar' /></a> <br />
+    <p>Stefanie Senger</p>
     </div>
     <div>
     <a href='https://github.com/reshamas'><img src='https://avatars.githubusercontent.com/u/2507232?v=4' class='avatar' /></a> <br />
