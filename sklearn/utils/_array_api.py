@@ -857,9 +857,8 @@ def _median(x, axis=None, keepdims=False, xp=None):
     if hasattr(xp, "median"):
         return xp.median(x, axis=axis, keepdims=keepdims)
 
-    # Intended mostly for array-api-strict (which as no "median", as per the spec)
-    # as `_convert_to_numpy` does not necessarily work for all array types.
-    x_np = _convert_to_numpy(x, xp=xp)
+    # Intended mostly for array-api-strict (which has no "median", as per the spec).
+    x_np = move_to(x, xp=numpy, device="cpu")
     return xp.asarray(numpy.median(x_np, axis=axis, keepdims=keepdims), device=device)
 
 
@@ -985,7 +984,15 @@ def _ravel(array, xp=None):
 
 
 def _convert_to_numpy(array, xp):
-    """Convert X into a NumPy ndarray on the CPU."""
+    """Convert X into a NumPy ndarray on the CPU.
+
+    This function uses library-specific methods to convert the array to a NumPy
+    ndarray on the CPU. It is only meant as a fallback when move_to fails to use the
+    DLPACK protocol.
+
+    This function is not meant to be called directly and
+    `move_to(array, xp=np, device="cpu")` should be used instead.
+    """
     if _is_xp_namespace(xp, "torch"):
         return array.cpu().numpy()
     elif _is_xp_namespace(xp, "cupy"):  # pragma: nocover
@@ -1181,9 +1188,9 @@ def _bincount(array, weights=None, minlength=0, xp=None):
     if hasattr(xp, "bincount"):
         return xp.bincount(array, weights=weights, minlength=minlength)
 
-    array_np = _convert_to_numpy(array, xp=xp)
+    array_np = move_to(array, xp=numpy, device="cpu")
     if weights is not None:
-        weights_np = _convert_to_numpy(weights, xp=xp)
+        weights_np = move_to(weights, xp=numpy, device="cpu")
     else:
         weights_np = None
     bin_out = numpy.bincount(array_np, weights=weights_np, minlength=minlength)
