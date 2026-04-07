@@ -210,7 +210,7 @@ class LeaveOneOut(_UnsupportedGroupCVMixin, BaseCrossValidator):
     See Also
     --------
     LeaveOneGroupOut : For splitting the data according to explicit,
-        domain-specific stratification of the dataset.
+        domain-specific grouping of the dataset.
     GroupKFold : K-fold iterator variant with non-overlapping groups.
     """
 
@@ -597,8 +597,8 @@ class GroupKFold(GroupsConsumerMixin, _BaseKFold):
 
     See Also
     --------
-    LeaveOneGroupOut : For splitting the data according to explicit
-        domain-specific stratification of the dataset.
+    LeaveOneGroupOut : For splitting the data according to explicit,
+        domain-specific grouping of the dataset.
 
     StratifiedKFold : Takes class information into account to avoid building
         folds with imbalanced class proportions (for binary or multiclass
@@ -1324,7 +1324,7 @@ class LeaveOneGroupOut(GroupsConsumerMixin, BaseCrossValidator):
 
     Provides train/test indices to split data such that each training set is
     comprised of all samples except ones belonging to one specific group.
-    Arbitrary domain specific group information is provided as an array of integers
+    Arbitrary domain-specific group information is provided as an array of integers
     that encodes the group of each sample.
 
     For instance the groups could be the year of collection of the samples
@@ -1441,7 +1441,7 @@ class LeavePGroupsOut(GroupsConsumerMixin, BaseCrossValidator):
 
     Provides train/test indices to split data according to a third-party
     provided group. This group information can be used to encode arbitrary
-    domain specific stratifications of the samples as integers.
+    domain-specific groupings of the samples as integers.
 
     For instance the groups could be the year of collection of the samples
     and thus allow for cross-validation against time-based splits.
@@ -2081,7 +2081,7 @@ class GroupShuffleSplit(GroupsConsumerMixin, BaseShuffleSplit):
 
     Provides randomized train/test indices to split data according to a
     third-party provided group. This group information can be used to encode
-    arbitrary domain specific stratifications of the samples as integers.
+    arbitrary domain-specific groupings of the samples as integers.
 
     For instance the groups could be the year of collection of the samples
     and thus allow for cross-validation against time-based splits.
