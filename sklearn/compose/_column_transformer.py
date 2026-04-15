@@ -1173,9 +1173,13 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
                     remainder_columns = self.feature_names_in_[
                         remainder_columns
                     ].tolist()
+                # get the fitted remainder function so we can access its methods to
+                # build the display in utils._repr_html.estimator.py
+                remainder_transformer = self.transformers_[-1][1]
 
                 transformers = chain(
-                    transformers, [("remainder", self.remainder, remainder_columns)]
+                    transformers,
+                    [("remainder", remainder_transformer, remainder_columns)],
                 )
         else:  # not fitted
             if self.remainder != "drop":
