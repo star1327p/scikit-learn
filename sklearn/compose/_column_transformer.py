@@ -1240,7 +1240,10 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
         # might happen if no columns are selected for that transformer. We
         # request all metadata requested by all transformers.
         transformers = self.transformers
-        if self.remainder not in ("drop", "passthrough"):
+        if self.remainder != "drop":
+            # Note: remainder="passthrough" will be converted into a FunctionTransformer
+            # internally, so it needs to be added to the router as well here, even if it
+            # doesn't consume any metadata, to avoid a `KeyError` later.
             transformers = chain(transformers, [("remainder", self.remainder, None)])
         for name, step, _ in transformers:
             method_mapping = MethodMapping()

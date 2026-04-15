@@ -2858,5 +2858,40 @@ def test_unused_transformer_request_present():
     assert router.consumes("fit", ["metadata"]) == set(["metadata"])
 
 
+@config_context(enable_metadata_routing=True)
+@pytest.mark.parametrize(
+    "remainder",
+    [
+        "drop",
+        "passthrough",  # consumes no metadata
+        Trans(),  # consumes no metadata
+        ConsumingTransformer(),  # consumes metadata
+    ],
+)
+def test_metadata_routing_with_remainder_no_error(remainder):
+    # Make sure that metadata routing works with all possible remainder types.
+    # Non-regression test for https://github.com/scikit-learn/scikit-learn/issues/33614
+
+    X = np.array([[1, 2], [3, 4]])
+    y = [0, 1]
+    sample_weight = [1, 1]
+
+    # This can only be set here because metadata routing has to be enabled first.
+    if isinstance(remainder, ConsumingTransformer):
+        remainder.set_fit_request(sample_weight=True).set_transform_request(
+            sample_weight=True
+        )
+
+    transformer = (
+        ConsumingTransformer()
+        .set_fit_request(sample_weight=True)
+        .set_transform_request(sample_weight=True)
+    )
+    ct = ColumnTransformer([("trans", transformer, [0])], remainder=remainder)
+
+    # Check that no error is raised
+    ct.fit_transform(X, y=y, sample_weight=sample_weight)
+
+
 # End of Metadata Routing Tests
 # =============================
